@@ -1,5 +1,23 @@
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, Depends
 from fastapi.responses import HTMLResponse
+from fastapi.security import OAuth2PasswordBearer
+import jwt
+import bcrypt
+
+users_db = {"admin":
+                {"username": "admin",
+                 "hashed_password": bcrypt.hashpw(password="admin".encode(), salt=bcrypt.gensalt())
+                 }
+            }
+
+
+def check_password():
+    pass
+
+
+def create_access_token():
+    pass
+
 
 app = FastAPI()
 
@@ -24,4 +42,3 @@ def login(username: str = Form(...), password: str = Form(...)):
         return "Hell yeah"
     else:
         return "Not hell yeah"
-
