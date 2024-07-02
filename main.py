@@ -10,13 +10,25 @@ users_db = {"admin":
                  }
             }
 
+SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+ALGORITHM = "HS256"
 
-def check_password():
-    pass
+
+def check_password(plain_password, hashed_password):
+    return bcrypt.checkpw(plain_password, hashed_password)
 
 
-def create_access_token():
-    pass
+def authenticate_user(username, plain_password, hashed_password):
+    if username == users_db["admin"]["username"] and check_password(plain_password, hashed_password):
+        return users_db["admin"]["username"]
+    else:
+        return False
+
+
+def create_access_token(data):
+    to_encode = data.copy()
+    jwt_token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return jwt_token
 
 
 app = FastAPI()
