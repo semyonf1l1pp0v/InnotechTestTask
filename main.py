@@ -70,9 +70,9 @@ appsec_practices = {
 
 @app.get("/appsec")
 def get_practice(key: Optional[str] = None):
-    if not key:
+    if not key or key == "practice_main":
         return open_html("appsec.html")
     for el in appsec_practices.items():
-        if el[0].lower() == key.lower():
-            return {el[0]:el[1]}
+        if el[0].lower() == key.lower().replace("practice_", ""):
+            return {el[0]: el[1]}
     return {"error": "key not found"}
