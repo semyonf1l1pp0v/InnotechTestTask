@@ -11,31 +11,31 @@ users_db = {"admin":
 app = FastAPI()
 
 
+def open_html(filename):
+    with open(filename) as file:
+        html_response = file.read()
+    return HTMLResponse(content=html_response)
+
+
 @app.get("/", response_class=HTMLResponse)
 def homepage():
-    with open("homepage.html") as file:
-        html_response = file.read()
-    return html_response
+    return open_html("homepage.html")
 
 
 @app.get("/login", response_class=HTMLResponse)
 def authpage():
-    with open("authform.html") as file:
-        html_response = file.read()
-    return html_response
+    return open_html("authform.html")
 
 
 @app.post("/login")
 def login(username: str = Form(...), password: str = Form(...)):
     if username == users_db["admin"]["username"] and bcrypt.checkpw(password.encode(),
                                                                     users_db["admin"]["hashed_password"]):
-        pass
+        return open_html("correct_cred.html")
     else:
-        with open("homepage.html") as file:
-            html_response = file.read()
-        return HTMLResponse(content=html_response)
+        return open_html("incorrect_cred.html")
 
 
 @app.get("/appsec")
 def appsec_main():
-    return "Appsec here"
+    return open_html("appsec.html")
