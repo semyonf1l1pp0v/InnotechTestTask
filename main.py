@@ -3,12 +3,8 @@ from typing import Optional
 from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse
 import bcrypt
+import sqlite3
 
-users_db = {"admin":
-                {"username": "admin",
-                 "hashed_password": bcrypt.hashpw(password="admin".encode(), salt=bcrypt.gensalt())
-                 }
-            }
 
 app = FastAPI()
 
@@ -31,8 +27,14 @@ def authpage():
 
 @app.post("/login")
 def login(username: str = Form(...), password: str = Form(...)):
-    if username == users_db["admin"]["username"] and bcrypt.checkpw(password.encode(),
-                                                                    users_db["admin"]["hashed_password"]):
+    connection = sqlite3.connect("Users.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT hashed_password from Users where username = ?", [username])
+    fetch_result = cursor.fetchall()
+    if not fetch_result:
+        return open_html("incorrect_cred.html")
+    password_from_db = fetch_result[0][0]
+    if bcrypt.checkpw(password.encode(), password_from_db):
         return open_html("correct_cred.html")
     else:
         return open_html("incorrect_cred.html")
