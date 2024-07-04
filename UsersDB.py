@@ -18,8 +18,8 @@ hashed_password text
 connection.commit()
 
 cursor.execute('''
-INSERT INTO USERS VALUES ("admin", ?)
-''', [bcrypt.hashpw("admin".encode(), bcrypt.gensalt())])
+INSERT INTO USERS VALUES (?, ?)
+''', ["admin", bcrypt.hashpw("admin".encode(), bcrypt.gensalt())])
 connection.commit()
 
 connection.close()
