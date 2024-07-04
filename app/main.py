@@ -5,7 +5,6 @@ from fastapi.responses import HTMLResponse
 import bcrypt
 import sqlite3
 
-
 app = FastAPI()
 
 
@@ -51,4 +50,13 @@ def get_practice(key: Optional[str] = None):
     if not fetch_result:
         return {"error": "key not found"}
     else:
-        return {key.upper():fetch_result[0][0]}
+        return {key.upper(): fetch_result[0][0]}
+
+
+@app.get("/appsec/all")
+def get_all_practices():
+    connection = sqlite3.connect("app/databases/AppSec.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT * from APPSEC")
+    fetch_result = cursor.fetchall()
+    return {el[0]: el[1] for el in fetch_result}
