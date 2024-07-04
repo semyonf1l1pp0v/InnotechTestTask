@@ -17,38 +17,37 @@ def open_html(filename):
 
 @app.get("/", response_class=HTMLResponse)
 def homepage():
-    return open_html("homepage.html")
+    return open_html("app/templates/homepage.html")
 
 
 @app.get("/login", response_class=HTMLResponse)
 def authpage():
-    return open_html("authform.html")
+    return open_html("app/templates/authform.html")
 
 
 @app.post("/login")
 def login(username: str = Form(...), password: str = Form(...)):
-    connection = sqlite3.connect("Users.db")
+    connection = sqlite3.connect("app/databases/Users.db")
     cursor = connection.cursor()
     cursor.execute("SELECT hashed_password from USERS where username = ?", [username])
     fetch_result = cursor.fetchall()
     if not fetch_result:
-        return open_html("incorrect_cred.html")
+        return open_html("app/templates/incorrect_cred.html")
     password_from_db = fetch_result[0][0]
     if bcrypt.checkpw(password.encode(), password_from_db):
-        return open_html("correct_cred.html")
+        return open_html("app/templates/correct_cred.html")
     else:
-        return open_html("incorrect_cred.html")
+        return open_html("app/templates/incorrect_cred.html")
 
 
 @app.get("/appsec")
 def get_practice(key: Optional[str] = None):
     if not key:
-        return open_html("appsec.html")
-    connection = sqlite3.connect("AppSec.db")
+        return open_html("app/templates/appsec.html")
+    connection = sqlite3.connect("app/databases/AppSec.db")
     cursor = connection.cursor()
     cursor.execute("SELECT description from APPSEC where acronym = ?", [key.upper()])
     fetch_result = cursor.fetchall()
-    print(fetch_result)
     if not fetch_result:
         return {"error": "key not found"}
     else:

@@ -3,5 +3,5 @@ venv/
 .env
 .DS_Store
 __pycache__/
-Users.db
-AppSec.db
+app/databases/Users.db
+app/databases/AppSec.db
