@@ -1,7 +1,7 @@
 import sqlite3
 import bcrypt
 
-connection = sqlite3.connect("Users.db")
+connection = sqlite3.connect("app/databases/Users.db")
 cursor = connection.cursor()
 
 cursor.execute('DROP TABLE IF EXISTS USERS')
