@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect("app/databases/AppSec.db")
+connection = sqlite3.connect("app/databases/TestTask.db")
 cursor = connection.cursor()
 
 cursor.execute('DROP TABLE IF EXISTS APPSEC')

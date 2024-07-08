@@ -26,7 +26,7 @@ def authpage():
 
 @app.post("/login")
 def login(username: str = Form(...), password: str = Form(...)):
-    connection = sqlite3.connect("app/databases/Users.db")
+    connection = sqlite3.connect("app/databases/TestTask.db")
     cursor = connection.cursor()
     cursor.execute("SELECT hashed_password from USERS where username = ?", [username])
     fetch_result = cursor.fetchall()
@@ -43,7 +43,7 @@ def login(username: str = Form(...), password: str = Form(...)):
 def get_practice(key: Optional[str] = None):
     if not key:
         return open_html("app/templates/appsec.html")
-    connection = sqlite3.connect("app/databases/AppSec.db")
+    connection = sqlite3.connect("app/databases/TestTask.db")
     cursor = connection.cursor()
     cursor.execute("SELECT description from APPSEC where acronym = ?", [key.upper()])
     fetch_result = cursor.fetchall()
@@ -55,7 +55,7 @@ def get_practice(key: Optional[str] = None):
 
 @app.get("/appsec/all")
 def get_all_practices():
-    connection = sqlite3.connect("app/databases/AppSec.db")
+    connection = sqlite3.connect("app/databases/TestTask.db")
     cursor = connection.cursor()
     cursor.execute("SELECT * from APPSEC")
     fetch_result = cursor.fetchall()

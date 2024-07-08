@@ -15,5 +15,6 @@
 # Запуск проекта:
 1. `git clone https://github.com/semyonf1l1pp0v/TestTask.git`
 2. Устанавливаем зависимости с помощью `pip install -r requirements.txt`
+3. Вводим команды `python app/databases/UsersDB.py` и `python app/databases/AppSecDB.py` для создания и заполнения локальной БД
 3. Запускаем `uvicorn app.main:app --reload --port 6000` 
 
